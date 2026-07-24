@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+TRS NEWS TEMPLATE v3 -- general football news/storylines, daily
+Repo: trs_templates/news (create + push). Render loop cache-busts with Date.now().
+
+FIXED 4 slides: The Story (photo hero), The Numbers (all facts, one hero stat
+highlighted in volt-green), The Take (verdict), Sign-off. The same photo bleeds
+through slides 1-3 with increasing scrim depth so the carousel reads as one
+continuous backdrop, not four disconnected cards. Sign-off stays the one
+distinct brand-only beat (no photo), matching every other TRS template's outro.
+No-photo fallback: all three content slides share the same dark diagonal
+gradient + faint "NEWS" ghost watermark instead of a flat black scrim.
+
+DOCTRINE: facts/headline/hook come from Tavily-grounded research; Claude supplies
+editorial copy only, no invented stats.
+
+RENDER NOTE: any slide with a photo needs ms_delay >= 2000 in the HCTI call --
+confirmed 700ms can silently drop a slow-loading hotlinked image with no error.
+-->
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{margin:0;padding:0;background:#0a0a0a}
+
+#slide-render{
+  width:1080px;
+  height:1080px;
+  position:relative;
+  overflow:hidden;
+  background:#0a0a0a;
+  font-family:'Inter',sans-serif;
+}
+
+.grain{position:absolute;inset:0;z-index:50;pointer-events:none;opacity:0.5;mix-blend-mode:overlay}
+.slide{position:absolute;inset:0;display:none;flex-direction:column}
+.slide.active{display:flex}
+
+/* ============ GLOBAL CHROME (shared brand system) ============ */
+.chr-tl{position:absolute;top:34px;left:44px;z-index:20;font-family:'Bebas Neue',sans-serif;font-size:27px;letter-spacing:7px;color:#AAFF00;line-height:1}
+.chr-tr{position:absolute;top:39px;right:44px;z-index:20;font-size:17px;letter-spacing:4px;color:rgba(170,255,0,0.55);text-transform:uppercase;font-weight:600;font-family:'Inter',sans-serif}
+.chr-bc{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:20;font-size:16px;letter-spacing:8px;color:rgba(170,255,0,0.35);text-transform:uppercase;font-weight:600;font-family:'Inter',sans-serif}
+.ch-label{position:absolute;bottom:32px;left:44px;z-index:20;font-size:16px;letter-spacing:4px;color:rgba(170,255,0,0.65);text-transform:uppercase;font-weight:700;font-family:'Inter',sans-serif}
+.sc{position:absolute;bottom:26px;right:44px;font-family:'Bebas Neue',sans-serif;font-size:40px;color:rgba(170,255,0,0.18);letter-spacing:4px;z-index:20;line-height:1}
+/* 4-segment rail -- matches the fixed 4-slide count, not the old 10-dot bar */
+.rail{position:absolute;left:0;top:0;bottom:0;width:6px;display:flex;flex-direction:column;gap:5px;z-index:30}
+.rs{flex:1;background:#191919}
+.rs.on{background:#AAFF00}
+
+.bg-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.bg-dark{position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,#101010 0%,#0a0a0a 60%)}
+.ds-ghost{position:absolute;z-index:3;font-family:'Bebas Neue',sans-serif;font-size:340px;line-height:1;color:#AAFF00;opacity:0.045;right:0;bottom:-20px;letter-spacing:-10px;pointer-events:none;padding:0 16px 16px 0;white-space:nowrap}
+
+.vbar{width:110px;height:12px;background:#AAFF00;margin:0 0 26px;transform:skewX(-16deg)}
+
+/* ============ S1: THE STORY (hero) ============ */
+.scrim-hero{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.02) 0%, rgba(10,10,10,0.06) 46%, rgba(10,10,10,0.5) 66%, rgba(10,10,10,0.97) 88%)}
+.cov-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 108px}
+.cov-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:16px;font-weight:700;font-family:'Inter',sans-serif}
+.cov-ttl{font-family:'Bebas Neue',sans-serif;font-size:100px;line-height:0.92;color:#fff;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase}
+.cov-bod{font-size:34px;color:rgba(255,255,255,0.88);line-height:1.45;font-weight:300;font-family:'Inter',sans-serif;max-width:860px}
+
+/* ============ S2: THE NUMBERS (consolidated, persistent backdrop) ============ */
+.scrim-numbers{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.32) 0%, rgba(10,10,10,0.72) 30%, rgba(10,10,10,0.96) 100%)}
+.num-content{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:center;padding:118px 56px 108px;gap:34px}
+.num-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;font-weight:700;font-family:'Inter',sans-serif;margin-bottom:6px}
+.fact-row{display:flex;align-items:baseline;gap:32px;border-top:1px solid rgba(255,255,255,0.1);padding-top:26px}
+.fact-row.first{border-top:none;padding-top:0}
+.fact-num{font-family:'Bebas Neue',sans-serif;font-size:100px;line-height:0.85;color:#fff;letter-spacing:-2px;min-width:220px}
+.fact-num.hero{color:#AAFF00;font-size:126px}
+.fact-text{flex:1}
+.fact-label{font-size:19px;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase;font-weight:600;margin-bottom:6px;font-family:'Inter',sans-serif}
+.fact-body{font-size:25px;color:rgba(255,255,255,0.9);line-height:1.4;font-weight:300;font-family:'Inter',sans-serif}
+.fact-row.hidden{display:none}
+
+/* ============ S3: THE TAKE (verdict, persistent backdrop) ============ */
+.scrim-take{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.48) 0%, rgba(10,10,10,0.83) 40%, rgba(10,10,10,0.97) 100%)}
+.take-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;padding:118px 56px 108px;justify-content:center}
+.take-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:20px;font-weight:700;font-family:'Inter',sans-serif}
+.take-ttl{font-family:'Bebas Neue',sans-serif;font-size:92px;line-height:0.94;color:#fff;letter-spacing:1px;margin-bottom:24px}
+.take-bod{font-size:36px;color:#fff;line-height:1.5;font-weight:300;font-family:'Inter',sans-serif;max-width:900px}
+
+/* ============ S4: SIGN-OFF (distinct brand-only outro, no photo) ============ */
+.so-wrap{position:absolute;top:0;left:0;right:0;bottom:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.so-ghost{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:820px;color:#AAFF00;opacity:0.05;pointer-events:none;letter-spacing:-40px;line-height:0.85;top:44%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;user-select:none;z-index:1}
+.so-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;width:100%}
+.so-third{font-family:'Bebas Neue',sans-serif;font-size:156px;color:#AAFF00;letter-spacing:18px;line-height:1;text-align:center;width:100%}
+.so-rail{font-family:'Bebas Neue',sans-serif;font-size:156px;color:#AAFF00;letter-spacing:18px;line-height:1;margin-top:-20px;text-align:center;width:100%}
+.so-sports{font-size:26px;letter-spacing:18px;color:rgba(170,255,0,0.28);text-transform:uppercase;margin-top:14px;font-weight:500;font-family:'Inter',sans-serif}
+.so-rule{width:96px;height:3px;background:rgba(170,255,0,0.18);margin:24px auto}
+.so-tag{font-size:26px;letter-spacing:10px;color:rgba(170,255,0,0.42);text-transform:uppercase;font-weight:600;font-family:'Inter',sans-serif}
+.so-handle{font-family:'Bebas Neue',sans-serif;font-size:48px;color:rgba(170,255,0,0.32);letter-spacing:5px;margin-top:10px}
+.so-line{font-size:44px;color:#ffffff;font-weight:300;font-style:italic;padding-top:56px;letter-spacing:0.5px;width:860px;text-align:center;line-height:1.45;font-family:'Inter',sans-serif}
+/* Footer platform row -- truly centered in the same footer band as ch-label/sc on every other slide.
+   Rule stretches edge-to-edge (matching chr-tl/chr-tr's 44px margin) with clear gap above the footer text. */
+.platform-rule{position:absolute;bottom:92px;left:44px;right:44px;height:2px;background:rgba(255,255,255,0.08);z-index:20}
+.platform-row{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:'Bebas Neue',sans-serif;font-size:30px;color:rgba(170,255,0,0.55);letter-spacing:6px;text-align:center;white-space:nowrap;z-index:20}
+</style>
+</head>
+<body>
+<div id="slide-render">
+
+<svg class="grain" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+<filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch"/>
+<feColorMatrix type="saturate" values="0"/><feBlend in="SourceGraphic" mode="overlay"/></filter>
+<rect width="100%" height="100%" filter="url(#gf)" opacity="0.38"/>
+</svg>
+
+<!-- S1: THE STORY -->
+<div class="slide {{S1_ACTIVE}}" id="s1">
+{{S1_BG_HTML}}
+<div class="rail"><div class="rs on"></div><div class="rs"></div><div class="rs"></div><div class="rs"></div></div>
+<div class="chr-tl">THIRD RAIL SPORTS</div>
+<div class="chr-tr">THE DAILY &middot; {{DATE_LABEL}}</div>
+<div class="cov-inner">
+  <div class="vbar"></div>
+  <div class="cov-sec">Today's Story</div>
+  <div class="cov-ttl">{{HEADLINE}}</div>
+  <div class="cov-bod">{{HOOK}}</div>
+</div>
+<div class="ch-label">01 &middot; THE STORY</div>
+<div class="chr-bc">SPORT. DECODED.</div>
+<div class="sc">01 / 04</div>
+</div>
+
+<!-- S2: THE NUMBERS -->
+<div class="slide {{S2_ACTIVE}}" id="s2">
+{{S2_BG_HTML}}
+<div class="rail"><div class="rs on"></div><div class="rs on"></div><div class="rs"></div><div class="rs"></div></div>
+<div class="chr-tl">THIRD RAIL SPORTS</div>
+<div class="chr-tr">THE DAILY &middot; {{DATE_LABEL}}</div>
+<div class="num-content">
+  <div class="num-sec">The Numbers</div>
+  <div class="fact-row first"><div class="fact-num {{FACT1_HERO_CLASS}}">{{FACT1_NUM}}</div><div class="fact-text"><div class="fact-label">{{FACT1_LABEL}}</div><div class="fact-body">{{FACT1_BODY}}</div></div></div>
+  <div class="fact-row {{FACT2_HIDDEN_CLASS}}"><div class="fact-num {{FACT2_HERO_CLASS}}">{{FACT2_NUM}}</div><div class="fact-text"><div class="fact-label">{{FACT2_LABEL}}</div><div class="fact-body">{{FACT2_BODY}}</div></div></div>
+  <div class="fact-row {{FACT3_HIDDEN_CLASS}}"><div class="fact-num {{FACT3_HERO_CLASS}}">{{FACT3_NUM}}</div><div class="fact-text"><div class="fact-label">{{FACT3_LABEL}}</div><div class="fact-body">{{FACT3_BODY}}</div></div></div>
+</div>
+<div class="ch-label">02 &middot; THE NUMBERS</div>
+<div class="chr-bc">SPORT. DECODED.</div>
+<div class="sc">02 / 04</div>
+</div>
+
+<!-- S3: THE TAKE -->
+<div class="slide {{S3_ACTIVE}}" id="s3">
+{{S3_BG_HTML}}
+<div class="rail"><div class="rs on"></div><div class="rs on"></div><div class="rs on"></div><div class="rs"></div></div>
+<div class="chr-tl">THIRD RAIL SPORTS</div>
+<div class="chr-tr">THE DAILY &middot; {{DATE_LABEL}}</div>
+<div class="take-inner">
+  <div class="vbar"></div>
+  <div class="take-sec">The Take</div>
+  <div class="take-ttl">{{VERDICT_LINE}}</div>
+  <div class="take-bod">{{VERDICT_SUPPORT}}</div>
+</div>
+<div class="ch-label">03 &middot; THE VERDICT</div>
+<div class="chr-bc">SPORT. DECODED.</div>
+<div class="sc">03 / 04</div>
+</div>
+
+<!-- S4: SIGN-OFF -->
+<div class="slide {{S4_ACTIVE}}" id="s4">
+<div class="rail"><div class="rs on"></div><div class="rs on"></div><div class="rs on"></div><div class="rs on"></div></div>
+<div class="so-wrap">
+  <div class="so-ghost">TRS</div>
+  <div class="so-content">
+    <div class="so-third">THIRD</div>
+    <div class="so-rail">RAIL</div>
+    <div class="so-sports">Sports</div>
+    <div class="so-rule"></div>
+    <div class="so-tag">The Daily</div>
+    <div class="so-handle">@thirdrailsports</div>
+    <div class="so-line">{{SO_LINE}}</div>
+  </div>
+</div>
+<div class="ch-label">04 &middot; SIGN-OFF</div>
+<div class="platform-rule"></div>
+<div class="platform-row">YT &middot; FB &middot; IG &middot; TIKTOK &middot; X &middot; THREADS</div>
+<div class="sc" style="color:rgba(170,255,0,0.12)">04 / 04</div>
+</div>
+
+</div>
+</body>
+</html>
