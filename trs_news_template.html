@@ -60,12 +60,17 @@ body{margin:0;padding:0;background:#0a0a0a}
 
 .vbar{width:110px;height:12px;background:#AAFF00;margin:0 0 26px;transform:skewX(-16deg)}
 
+/* Text-shadow "halo" on all primary content text sitting over a photo backdrop -- a fixed-opacity
+   scrim can't guarantee contrast against every possible photo (bright sky, light jersey, stadium
+   lights right behind the text), so every glyph gets its own dark edge as a content-agnostic backstop. */
+.cov-sec,.cov-ttl,.cov-bod,.num-sec,.fact-num,.fact-label,.fact-body,.fric-sec,.fric-ttl,.fric-bod,.take-sec,.take-ttl,.take-bod,.take-so{text-shadow:0 2px 14px rgba(0,0,0,0.55),0 1px 3px rgba(0,0,0,0.9)}
+
 /* ============ S1: THE STORY (hero) ============ */
 .scrim-hero{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.02) 0%, rgba(10,10,10,0.06) 46%, rgba(10,10,10,0.5) 66%, rgba(10,10,10,0.97) 88%)}
 .cov-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 108px}
 .cov-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:16px;font-weight:700;font-family:'Inter',sans-serif}
 .cov-ttl{font-family:'Bebas Neue',sans-serif;font-size:100px;line-height:0.92;color:#fff;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase}
-.cov-bod{font-size:34px;color:rgba(255,255,255,0.88);line-height:1.45;font-weight:300;font-family:'Inter',sans-serif;max-width:860px}
+.cov-bod{font-size:39px;color:rgba(255,255,255,0.88);line-height:1.4;font-weight:300;font-family:'Inter',sans-serif;max-width:860px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ============ S2: THE NUMBERS (consolidated, persistent backdrop) ============ */
 .scrim-numbers{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.32) 0%, rgba(10,10,10,0.72) 30%, rgba(10,10,10,0.96) 100%)}
@@ -94,8 +99,8 @@ body{margin:0;padding:0;background:#0a0a0a}
 .take-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;padding:118px 56px 140px;justify-content:center}
 .take-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:20px;font-weight:700;font-family:'Inter',sans-serif}
 .take-ttl{font-family:'Bebas Neue',sans-serif;font-size:88px;line-height:0.94;color:#fff;letter-spacing:1px;margin-bottom:22px}
-.take-bod{font-size:33px;color:#fff;line-height:1.5;font-weight:300;font-family:'Inter',sans-serif;max-width:900px}
-.take-so{font-size:26px;color:rgba(255,255,255,0.75);line-height:1.5;font-weight:300;font-style:italic;font-family:'Inter',sans-serif;max-width:840px;margin-top:30px;padding-top:28px;border-top:1px solid rgba(255,255,255,0.12)}
+.take-bod{font-size:39px;color:#fff;line-height:1.4;font-weight:300;font-family:'Inter',sans-serif;max-width:900px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.take-so{font-size:26px;color:rgba(255,255,255,0.75);line-height:1.5;font-weight:300;font-style:italic;font-family:'Inter',sans-serif;max-width:840px;margin-top:30px;padding-top:28px;border-top:1px solid rgba(255,255,255,0.12);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
 /* Footer platform row -- truly centered in the same footer band as ch-label/sc on every other slide.
    Rule stretches edge-to-edge (matching chr-tl/chr-tr's 44px margin) with clear gap above the footer text. */
