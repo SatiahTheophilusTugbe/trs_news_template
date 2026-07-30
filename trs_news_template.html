@@ -60,6 +60,9 @@ body{margin:0;padding:0;background:#0a0a0a}
 
 .vbar{width:110px;height:12px;background:#AAFF00;margin:0 0 26px;transform:skewX(-16deg)}
 
+/* Inline volt-green keyword/phrase highlight inside a headline-style title (cov-ttl/fric-ttl/take-ttl) */
+.acc{color:#AAFF00}
+
 /* Text-shadow "halo" on all primary content text sitting over a photo backdrop -- a fixed-opacity
    scrim can't guarantee contrast against every possible photo (bright sky, light jersey, stadium
    lights right behind the text), so every glyph gets its own dark edge as a content-agnostic backstop. */
@@ -70,7 +73,7 @@ body{margin:0;padding:0;background:#0a0a0a}
 .cov-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 108px}
 .cov-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:16px;font-weight:700;font-family:'Inter',sans-serif}
 .cov-ttl{font-family:'Bebas Neue',sans-serif;font-size:100px;line-height:0.92;color:#fff;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase}
-.cov-bod{font-size:39px;color:rgba(255,255,255,0.88);line-height:1.4;font-weight:300;font-family:'Inter',sans-serif;max-width:860px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cov-bod{font-size:39px;color:#fff;line-height:1.4;font-weight:300;font-family:'Inter',sans-serif;max-width:860px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ============ S2: THE NUMBERS (consolidated, persistent backdrop) ============ */
 .scrim-numbers{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.32) 0%, rgba(10,10,10,0.72) 30%, rgba(10,10,10,0.96) 100%)}
@@ -84,7 +87,7 @@ body{margin:0;padding:0;background:#0a0a0a}
 .fact-num.hero{color:#AAFF00;font-size:126px}
 .fact-text{flex:1}
 .fact-label{font-size:20px;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase;font-weight:600;margin-bottom:8px;font-family:'Inter',sans-serif}
-.fact-body{font-size:39px;color:rgba(255,255,255,0.9);line-height:1.3;font-weight:300;font-family:'Inter',sans-serif;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.fact-body{font-size:39px;color:#fff;line-height:1.3;font-weight:300;font-family:'Inter',sans-serif;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .fact-row.hidden{display:none}
 
 /* ============ S3: THE FRICTION (complicating angle, persistent backdrop) ============ */
