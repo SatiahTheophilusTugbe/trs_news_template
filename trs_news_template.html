@@ -71,6 +71,7 @@ body{margin:0;padding:0;background:#0a0a0a}
 /* ============ S1: THE STORY (hero) ============ */
 .scrim-hero{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.02) 0%, rgba(10,10,10,0.06) 46%, rgba(10,10,10,0.5) 66%, rgba(10,10,10,0.97) 88%)}
 .cov-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 108px}
+.cov-inner.centered{justify-content:center;padding-bottom:0}
 .cov-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:16px;font-weight:700;font-family:'Inter',sans-serif}
 .cov-ttl{font-family:'Bebas Neue',sans-serif;font-size:100px;line-height:0.92;color:#fff;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase}
 .cov-bod{font-size:39px;color:#fff;line-height:1.4;font-weight:300;font-family:'Inter',sans-serif;max-width:860px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
@@ -126,7 +127,7 @@ body{margin:0;padding:0;background:#0a0a0a}
 <div class="rail"><div class="rs on"></div><div class="rs"></div><div class="rs"></div><div class="rs"></div></div>
 <div class="chr-tl">THIRD RAIL SPORTS</div>
 <div class="chr-tr">THE DAILY &middot; {{DATE_LABEL}}</div>
-<div class="cov-inner">
+<div class="cov-inner {{COV_INNER_CLASS}}">
   <div class="vbar"></div>
   <div class="cov-sec">Today's Story</div>
   <div class="cov-ttl">{{HEADLINE}}</div>
