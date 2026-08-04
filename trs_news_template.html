@@ -66,15 +66,14 @@ body{margin:0;padding:0;background:#0a0a0a}
 /* Text-shadow "halo" on all primary content text sitting over a photo backdrop -- a fixed-opacity
    scrim can't guarantee contrast against every possible photo (bright sky, light jersey, stadium
    lights right behind the text), so every glyph gets its own dark edge as a content-agnostic backstop. */
-.cov-sec,.cov-ttl,.cov-bod,.num-sec,.fact-num,.fact-label,.fact-body,.fric-sec,.fric-ttl,.fric-bod,.take-sec,.take-ttl,.take-bod,.take-so{text-shadow:0 2px 14px rgba(0,0,0,0.55),0 1px 3px rgba(0,0,0,0.9)}
+.cov-sec,.cov-ttl,.num-sec,.fact-num,.fact-label,.fact-body,.fric-sec,.fric-ttl,.fric-bod,.take-sec,.take-ttl,.take-bod,.take-so{text-shadow:0 2px 14px rgba(0,0,0,0.55),0 1px 3px rgba(0,0,0,0.9)}
 
 /* ============ S1: THE STORY (hero) ============ */
 .scrim-hero{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.02) 0%, rgba(10,10,10,0.06) 46%, rgba(10,10,10,0.5) 66%, rgba(10,10,10,0.97) 88%)}
 .cov-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 108px}
 .cov-inner.centered{justify-content:center;padding-bottom:0}
 .cov-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:16px;font-weight:700;font-family:'Inter',sans-serif}
-.cov-ttl{font-family:'Bebas Neue',sans-serif;font-size:100px;line-height:0.92;color:#fff;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase}
-.cov-bod{font-size:39px;color:#fff;line-height:1.4;font-weight:300;font-family:'Inter',sans-serif;max-width:860px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cov-ttl{font-family:'Bebas Neue',sans-serif;font-size:100px;line-height:0.94;color:#fff;letter-spacing:1px;text-transform:uppercase;max-width:940px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ============ S2: THE NUMBERS (consolidated, persistent backdrop) ============ */
 .scrim-numbers{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.32) 0%, rgba(10,10,10,0.72) 30%, rgba(10,10,10,0.96) 100%)}
@@ -131,7 +130,6 @@ body{margin:0;padding:0;background:#0a0a0a}
   <div class="vbar"></div>
   <div class="cov-sec">Today's Story</div>
   <div class="cov-ttl">{{HEADLINE}}</div>
-  <div class="cov-bod">{{HOOK}}</div>
 </div>
 <div class="ch-label">01 &middot; THE STORY</div>
 <div class="chr-bc">SPORT. DECODED.</div>
