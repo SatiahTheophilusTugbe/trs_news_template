@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--
-TRS NEWS TEMPLATE v4 -- general football news/storylines, daily
+TRS NEWS TEMPLATE v5 -- general football news/storylines, daily
 Repo: trs_templates/news (create + push). Render loop cache-busts with Date.now().
 
 FIXED 4 slides: The Story (photo hero), The Numbers (all facts, one hero stat
@@ -70,40 +70,46 @@ body{margin:0;padding:0;background:#0a0a0a}
 
 /* ============ S1: THE STORY (hero) ============ */
 .scrim-hero{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.02) 0%, rgba(10,10,10,0.06) 46%, rgba(10,10,10,0.5) 66%, rgba(10,10,10,0.97) 88%)}
-.cov-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 108px}
+.cov-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 170px}
 .cov-inner.centered{justify-content:center;padding-bottom:0}
 .cov-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:16px;font-weight:700;font-family:'Inter',sans-serif}
 .cov-ttl{font-family:'Bebas Neue',sans-serif;font-size:100px;line-height:0.94;color:#fff;letter-spacing:1px;text-transform:uppercase;max-width:940px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ============ S2: THE NUMBERS (consolidated, persistent backdrop) ============ */
-.scrim-numbers{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.32) 0%, rgba(10,10,10,0.72) 30%, rgba(10,10,10,0.96) 100%)}
-.num-content{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding:134px 56px 100px;gap:0}
+.scrim-numbers{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.28) 0%, rgba(10,10,10,0.6) 40%, rgba(10,10,10,0.88) 100%)}
+.num-content{position:relative;z-index:5;flex:none;margin:auto 40px 92px;display:flex;flex-direction:column;justify-content:flex-start;padding:38px 44px 40px}
 .num-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;font-weight:700;font-family:'Inter',sans-serif;margin-bottom:10px}
-.fact-list{flex:1;display:flex;flex-direction:column;justify-content:space-between}
-.fact-list.facts-2{justify-content:space-evenly}
-.fact-row{display:flex;align-items:flex-start;gap:34px;border-top:1px solid rgba(255,255,255,0.1);padding-top:16px;margin-top:14px}
+.fact-list{flex:none;display:flex;flex-direction:column}
+.fact-row{display:flex;align-items:center;gap:34px;border-top:1px solid rgba(255,255,255,0.1);padding-top:22px;margin-top:22px}
 .fact-row.first{border-top:none;padding-top:0;margin-top:0}
-.fact-num{font-family:'Bebas Neue',sans-serif;font-size:100px;line-height:0.85;color:#fff;letter-spacing:-2px;min-width:220px}
-.fact-num.hero{color:#AAFF00;font-size:126px}
+.fact-num{font-family:'Bebas Neue',sans-serif;font-size:108px;line-height:0.85;color:#fff;letter-spacing:-2px;min-width:250px}
+.fact-num.hero{color:#AAFF00;font-size:140px}
 .fact-text{flex:1}
-.fact-label{font-size:20px;letter-spacing:3px;color:#fff;text-transform:uppercase;font-weight:600;margin-bottom:8px;font-family:'Inter',sans-serif}
-.fact-body{font-size:39px;color:#fff;line-height:1.3;font-weight:300;font-family:'Inter',sans-serif;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.fact-label{font-size:22px;letter-spacing:3px;color:#AAFF00;text-transform:uppercase;font-weight:600;margin-bottom:10px;font-family:'Inter',sans-serif}
+.fact-body{font-size:48px;color:#fff;line-height:1.18;font-weight:500;font-family:'Inter',sans-serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .fact-row.hidden{display:none}
 
 /* ============ S3: THE FRICTION (complicating angle, persistent backdrop) ============ */
-.scrim-friction{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.78) 40%, rgba(10,10,10,0.96) 100%)}
-.fric-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;padding:118px 56px 108px;justify-content:center}
+.scrim-friction{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.28) 0%, rgba(10,10,10,0.6) 40%, rgba(10,10,10,0.88) 100%)}
+.fric-inner{position:relative;z-index:5;flex:none;margin:auto 40px 92px;display:flex;flex-direction:column;padding:40px 44px 46px;justify-content:flex-start}
 .fric-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:20px;font-weight:700;font-family:'Inter',sans-serif}
 .fric-ttl{font-family:'Bebas Neue',sans-serif;font-size:92px;line-height:0.94;color:#fff;letter-spacing:1px;margin-bottom:24px}
-.fric-bod{font-size:36px;color:#fff;line-height:1.5;font-weight:300;font-family:'Inter',sans-serif;max-width:900px}
+.fric-bod{font-size:48px;color:#fff;line-height:1.18;font-weight:500;font-family:'Inter',sans-serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ============ S4: THE TAKE (closer -- verdict + so_line + platform row, persistent backdrop) ============ */
-.scrim-take{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.86) 42%, rgba(10,10,10,0.98) 100%)}
-.take-inner{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;padding:118px 56px 140px;justify-content:center}
+.scrim-take{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(10,10,10,0.28) 0%, rgba(10,10,10,0.6) 40%, rgba(10,10,10,0.88) 100%)}
+.take-inner{position:relative;z-index:5;flex:none;margin:auto 40px 124px;display:flex;flex-direction:column;padding:40px 44px 42px;justify-content:flex-start}
 .take-sec{font-size:24px;letter-spacing:8px;color:#AAFF00;text-transform:uppercase;margin-bottom:20px;font-weight:700;font-family:'Inter',sans-serif}
 .take-ttl{font-family:'Bebas Neue',sans-serif;font-size:88px;line-height:0.94;color:#fff;letter-spacing:1px;margin-bottom:22px}
-.take-bod{font-size:39px;color:#fff;line-height:1.4;font-weight:300;font-family:'Inter',sans-serif;max-width:900px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.take-so{font-size:39px;color:#fff;line-height:1.5;font-weight:300;font-style:italic;font-family:'Inter',sans-serif;max-width:840px;margin-top:30px;padding-top:28px;border-top:1px solid rgba(255,255,255,0.12);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.take-bod{font-size:48px;color:#fff;line-height:1.18;font-weight:500;font-family:'Inter',sans-serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.take-so{font-size:40px;color:#fff;line-height:1.4;font-weight:300;font-style:italic;font-family:'Inter',sans-serif;margin-top:26px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.12);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ============ S2-S4 SHARED (v5, 2026-10-08) ============
+   Slides 2-4 share one overlay (lighter than v4, still well below the S1 hero brightness). The text block
+   sits low on the slide over a feathered dark panel: it fades in from transparent above the text, so no hard
+   edge ever cuts across the photo. All supporting lines (fact-body/fric-bod/take-bod) share one 48px size. */
+.num-content::before,.fric-inner::before,.take-inner::before{content:'';position:absolute;left:-40px;right:-40px;top:-150px;bottom:-200px;z-index:-1;background:linear-gradient(180deg,rgba(8,8,8,0) 0px,rgba(8,8,8,0.62) 170px,rgba(8,8,8,0.72) 100%)}
+.fric-inner .vbar,.take-inner .vbar{margin-bottom:22px}
 
 /* Footer platform row -- truly centered in the same footer band as ch-label/sc on every other slide.
    Rule stretches edge-to-edge (matching chr-tl/chr-tr's 44px margin) with clear gap above the footer text. */
